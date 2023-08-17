@@ -12,3 +12,8 @@ childrent ==> What should the content into the React element.
 
 ReactDOM has createRoot method to create root element for manipulating HTML page using virtual DOM. 
 ReactDOM has render method used to render react element onto Index.html
+
+
+npm init ==> to initialize package.json 
+npm i -D parcel ==> to install parcel
+hit command ==> npx parcel index.html to run app 
