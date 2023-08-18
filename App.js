@@ -269,7 +269,7 @@ const Body = () => {
       <RestaurantCard restData={restaurantList[6]}/>
       <RestaurantCard restData={restaurantList[7]}/> */}
       {
-        restaurantList.map(restaurant => <RestaurantCard key={index} restData={restaurant}/>)
+        restaurantList.map(restaurant => <RestaurantCard key={restaurant._id} restData={restaurant}/>)
       }
 
 
