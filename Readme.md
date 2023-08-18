@@ -49,3 +49,20 @@ const TitleComponent = () => <p>Title Component here</p>
 1. {TitleComponent()}
 2. <TitleComponent/>
 3. <TitleComponent><TitleComponent/>
+
+
+
+===> Props
+
+1.Props stands for properties which we send to component. 
+2.Functional Component is just a functionn in react. We pass some arguments to functions called Props. 
+3.Passing a prop to a functional component is same as passing an argument to a function. 
+4. When you try to pass dynamic data to a component we need to pass a prop.
+5. const RestaurantCard = ({restName,cuisine}) => This is called destructusing on fly. 
+6. When we use map or filter in JS we need to use key as prop and share the index. If we don't pass id/key as prop then reactdom will render all the elements after adding a single element to the array of object. To overcome from this issue we need to pass key as a prop. 
+7. React doesn't recommend to use index as key. 
+
+
+
+Note - 
+Swiggy, Zomato and Uber has done config driven UI means our UI is driven based on config. Different locations have different offer for various restaurants. 
