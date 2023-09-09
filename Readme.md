@@ -66,3 +66,61 @@ const TitleComponent = () => <p>Title Component here</p>
 
 Note - 
 Swiggy, Zomato and Uber has done config driven UI means our UI is driven based on config. Different locations have different offer for various restaurants. 
+
+
+Food-platform
+// Header
+// --> Logo
+// --> Nav Items
+// Body 
+// --> SearchBar 
+// --> RestaurantContainer 
+// -----> ReastaurantCard
+// ======>Img
+// ======>Name of restaurant, Star, cuisine, delivery time, etc   
+// Footer
+// --> Copyright
+// --> Links 
+// --> Address
+// ---> Contact
+
+
+
+==Imports and Exports
+Two types of export and import 
+
+- Default Export and Import 
+export default component_name
+import component_name from "path"
+
+
+- Named Export and Import 
+export const Header = () =>
+import {Component_name} from "path"
+
+
+Hooks 
+1. They're normal JS functions written by fb developer. 
+2. Written inside react library. 
+3. Examples 
+- useState()--> 
+   Used to create superpowerful react variables. 
+   You've to implement named import for useState hook.   
+   It is used to maintain the local state of the component. 
+
+   const [listOfRestaurant,setListOfRestaurant] = useState([initial-value])
+   
+   a. listOfRestaurant ==> identifier/name of react state variable. 
+   b. setListOfRestaurant ==> callback function to manipulate state variable. 
+   c. useState() ==> is a function which takes initial value as a parameter i.e. null,0 or anything.
+   d. whenever state variable updates component will be rerendered. 
+
+-useEffect().  
+
+
+
+- React Fibre
+React uses reconciliation algorithm known as react fibre. This react fibre creates a virtual DOM to re-render the component. It doesn't touch the actual DOM. 
+Why react is fast ? 
+- Because of react fibre if any change is detected in virtual DOM it'll re-render that particular component. 
+For more info - https://github.com/acdlite/react-fiber-architecture
