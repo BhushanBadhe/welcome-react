@@ -10,7 +10,7 @@ const RestaurantCard = (props) => {
 
   const { name, cuisines, deliveryTime, avgRating, CloudinaryID } = restData;
   // const data = restData.data;
-  console.log(avgRating);
+  // console.log(avgRating);
   // const { restName,cuisine,avgRating,deliveryTime} = props;
   return (
     <div className="restaurant-card" style={styleCard}>

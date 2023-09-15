@@ -1,13 +1,10 @@
-import listOfRestaurant from "../utils/mockData";
+// import listOfRestaurant from "../utils/mockData";
 import RestaurantCard from "./ReastaurantCard";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import Shimmer from "./Shimmer";
 
 const Body = () => {
-
-  // State variable 
-
-
+  // State variable
 
   // let dataObj = [{
   //   _id: 1,
@@ -42,26 +39,62 @@ const Body = () => {
   //   deliveryTime: "Delivered in 45 minutes",
   //   CloudinaryID: "0da26b9dde86dc03dad7b4a1a747d2bd",
   // }]
-  const [restaurantList,setRestaurantList] = useState(listOfRestaurant);
-  // let restCount = listOfRestaurant.length;
-  const [count,setCount]=useState(listOfRestaurant.length);
-  // const restaurantList = restaurantList;
-  // const { restaurantList } = restObj;
-  console.log("Hook", restaurantList);
-  return (
+  const [restaurantList, setRestaurantList] = useState([]);
+  const [filteredRestaurantList,setFilteredRestaurantList] = useState([]);
+  const [count, setCount] = useState(0);
+  const [searchText,setSearchText] = useState("")
+  // console.log("Hook", restaurantList);
+
+  useEffect(() => {
+    fetchdata();
+  }, []);
+
+
+  const fetchdata = async () => {
+    
+    const data = await fetch('http://localhost:3000/hotels')
+    
+    // const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.5204303&lng=73.8567437&collection=80426&tags=layout_CCS_Dosa&sortBy=&filters=&type=rcv2&offset=0&page_type=null')
+    const parsedData = await data.json();
+
+    // setRestaurantList(parsedData)
+    // setCount(parsedData.length)
+    console.log("Swiggy", parsedData);
+    setRestaurantList(parsedData)
+    setFilteredRestaurantList(parsedData)
+    setCount(parsedData.length)
+  }
+  // if(restaurantList.length == 0){
+  //   return <Shimmer/>
+  // }
+  
+
+  return restaurantList == 0 ? <Shimmer/> : (
     <div className="body">
       <div className="filter">
+        <div className="search"> 
+          <input type="text" className="search-box" value={searchText} onChange={(e)=> setSearchText(e.target.value)}/>
+          <button onClick={()=> {
+          
+            let filteredList = restaurantList.filter((res)=> res.name.toLowerCase().includes(searchText.toLowerCase()))
+            setFilteredRestaurantList(filteredList)
+            setCount(filteredList.length)
+          }}>Seach</button>
+        </div>
         <button
-        className="filter-btn"
-        onClick={()=>{
-        const filteredListOfRestaurant =  restaurantList.filter(res => res.avgRating > 4.2)
-        console.log(filteredListOfRestaurant);
-        setRestaurantList(filteredListOfRestaurant);
-        setCount(filteredListOfRestaurant.length)
-        }
-        }
-        >Top Rated Restaurant</button>
-
+          className="filter-btn"
+          onClick={() => {
+            const filteredListOfRestaurant = restaurantList.filter(
+              (res) => res.avgRating > 4.2
+            );
+            // console.log(filteredListOfRestaurant);
+            setFilteredRestaurantList(filteredListOfRestaurant);
+            setCount(filteredListOfRestaurant.length);
+          }}
+        >
+          Top Rated Restaurant
+        </button>
+        <button className="filter-btn" onClick={()=> {fetchdata(); setSearchText("")}}>Reset</button>
       </div>
       <div>Total Count : {count}</div>
       <div className="restaurant-container">
@@ -73,7 +106,7 @@ const Body = () => {
         <RestaurantCard restData={restaurantList[4]}/>
         <RestaurantCard restData={restaurantList[6]}/>
         <RestaurantCard restData={restaurantList[7]}/> */}
-        {restaurantList.map((restaurant) => (
+        {filteredRestaurantList.map((restaurant) => (
           <RestaurantCard key={restaurant._id} restData={restaurant} />
         ))}
 

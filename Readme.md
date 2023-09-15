@@ -102,7 +102,9 @@ import {Component_name} from "path"
 Hooks 
 1. They're normal JS functions written by fb developer. 
 2. Written inside react library. 
-3. Examples 
+3. Hook is nothing a normal JS Function which is given by react. It has it's own use cases
+4. Examples 
+
 - useState()--> 
    Used to create superpowerful react variables. 
    You've to implement named import for useState hook.   
@@ -116,7 +118,11 @@ Hooks
    d. whenever state variable updates component will be rerendered. 
 
 -useEffect().  
-
+1. It is a hook same like useState hook. However, we use useState function/hook to initialize state variable useEffect used to interact with backend API. 
+2. useEffect function takes 2 arguments given as below
+  useEffect(()=>{}, [])
+  i) 1st argument is callback function and 2nd arg is dependency array. 
+3. After component rendering  this callback function is triggered. 
 
 
 - React Fibre
@@ -124,3 +130,19 @@ React uses reconciliation algorithm known as react fibre. This react fibre creat
 Why react is fast ? 
 - Because of react fibre if any change is detected in virtual DOM it'll re-render that particular component. 
 For more info - https://github.com/acdlite/react-fiber-architecture
+
+
+- Monolith Archietecture 
+1. There is a single project consist of whole set of functionality provided by the project eg amazon is using monolith archietecture then it should have a project called amazon under that should contain various apps 
+-- UI
+-- SMS
+-- SMTP 
+-- API
+-- Auth 
+-- DB 
+
+- Microservice architecture 
+In this arch we have different services for diff jobs like Backend service, UI Service, Auth Service, SMS Service, SMTP Services, DB Services all this services forms a big app. This is known as separation of concern. 
+
+
+
