@@ -117,13 +117,27 @@ Hooks
    c. useState() ==> is a function which takes initial value as a parameter i.e. null,0 or anything.
    d. whenever state variable updates component will be rerendered. 
 
+   Note: useState/state variables are used to manipulate data of functional component.So please create/declare and define initialisation of state variables at the top of component body.
+   Never create useState hooks into if statement it creates inconsistency into our code. 
+
 -useEffect().  
 1. It is a hook same like useState hook. However, we use useState function/hook to initialize state variable useEffect used to interact with backend API. 
 2. useEffect function takes 2 arguments given as below
   useEffect(()=>{}, [])
   i) 1st argument is callback function and 2nd arg is dependency array. 
 3. After component rendering  this callback function is triggered. 
+4. Everytime my component will get rendered useEffect hook will be called if there's no dependency array gibven only callback function is mandatory. 
+5. If we provide empty array as dependency array to useEffect hook then the useEffect hook will be rendered on initial stage of component. After that we won't be able to see any rendering from dependency array. 
+6. If something is provided to useEffect hook when dependency array changes then useEffect will get rendered. 
+eg 
 
+const [btnAuthState,setBtnAuthState] = useState("Login")
+
+<button onClick={()=> btnAuthState == "Login" ? setBtnAuthState("Logout"): setBtnAuthState("Login")} >{btnAuthState}</button>
+
+useEffect(()=> {
+  console.log("Authentication Status", btnAuthState)
+},[btnAuthState])
 
 - React Fibre
 React uses reconciliation algorithm known as react fibre. This react fibre creates a virtual DOM to re-render the component. It doesn't touch the actual DOM. 
@@ -146,3 +160,109 @@ In this arch we have different services for diff jobs like Backend service, UI S
 
 
 
+Finding the path React Router DOM
+1. install react-router-dom 
+2. import { createBrowserRouter,RouterProvider } from "react-router-dom";
+-- createBrowserRouter is a function provided by react-router-dom to set/manipulate path for DOM. 
+-- const appRouter = createBrowserRouter([
+  {path:"/",element:<AppLayout/>},
+  { path:'/about', element:<About/>}
+  ]) 
+3. RouterProvider is a component provided by react-router-dom. 
+4. instead of rendering app component using root.render try to render RouterProvider component 
+
+  RouterProvider component has a prop called router to which we pass the appRouter which is initialized by method createBrowerRouter function. 
+
+  Before Routing
+  root.render(<AppLayout />);
+  After Routing 
+  root.render(<RouterProvider router={appRouter}/>)
+
+5. We've created Error.js just like page not found component. In some cases like wildcard route of angular routing we have an opportunity to throw/show error component. To implement this(wildcard route) kind of functionality we need to provide following code. 
+
+{path:"/",element:<AppLayout/>, errorElement: <Errpr/>}
+
+6. Out header component should be on top if we navigate to other pages like contact us or about us page. For that purpose we need to provide child routes in chirldren array given as below 
+
+const appRouter = createBrowserRouter([
+  {path:"/",
+  element:<AppLayout/>
+  children:[
+    {path:'/about',element: </About/>}
+    {path:'/contact',element: </Contact/>}
+    
+  ],
+  errorElement:<Error/>
+  }
+]);
+
+
+
+8. we have multiple pages like 
+   i) http://localhost:1234/ ==> to show homepage with body comonent 
+   ii) http://localhost:1234/about ==> to show about page 
+
+  If we try to navigate to about page we'll get about us component without header(navbar) component. To solve/fix  this
+  issue we have Outlet component provided by react-router-dom which is used to change child route behaviour accoring to condition as given below.  
+
+  The outlet component will check all the child routes of appRouter instance. 
+
+ eg If out current path is http:localhost:1234/ ==> render header component with body component
+ If out current path is http:localhost:1234/about ==> render header component with about component. It means that the <Outlet/> component will be replaced with <About/> component.
+
+  Eg 
+
+  const AppLayout = () => {
+
+  return (
+    <div className="app">
+      <Header />
+      <Outlet/>
+    </div>
+  );
+};
+
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      {path:"/",element:<Body/>},
+      { path: "/about", element: <About /> },
+      { path: "/contact", element: <Contact /> },
+    ],
+    errorElement: <Error />,
+  },
+]);
+
+9. react-router-dom provided us useRouteError hook to show/throw error in various cases like error code is 404 or 400. 
+eg 
+
+import {useRouteError} from "react-router-dom";
+
+const err = useRouteError();
+
+err.status ==> to show error status code (400/404)
+err.statusText ==> to show error message 
+
+
+10. In header component we've some links to route like about link to navigate to about page. For that navigation react-router-dom wwarns user to never use <a href=""></a> in react app. To fix this issue react-router-dom provided us Link component which works similar like anchor tag. 
+
+i) <a href="/about"> About</a> ==> HTML way
+ii) <Link to="/about"> About</Link> ==> provided by react-router-dom way 
+
+Note: If we're using anchor tag the page will be reloaded. With the help of Link component page won't be reloaded/refreshed. 
+
+11. Types of routing in react
+i) Client Side routing ==> In this approach the component will be loaded/rendered as per user click. 
+ii) Server Side Routing ==> It means we have index.html. Suppose we want to open about.html then it'll send a network call to backend reloads the whole page and re-renders the about.html.
+
+
+12. useParams is a hook provided by react-router-dom to pass route parameter 
+i) {path:"/restaurants/:resId",element:<RestaurantMenu/>} ==> resid is a parameter passed to RestaurantMenu component 
+ii) <Link to={"/path/"+restaurant.id}> <Card/> <Link>  ==> link is a component provided by react-router-dom as same as anchored tag element. 
+ii) import {useParams} from "react-router-dom";
+iii) const {resId} = useParams(); 
+
+
+Warning : swiggy live api is used into this code. Just allow cors to your port using cors chrome extension. 

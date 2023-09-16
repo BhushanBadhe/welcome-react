@@ -2,6 +2,8 @@
 import RestaurantCard from "./ReastaurantCard";
 import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
+import { HOMEPAGE_URL } from "../utils/constants";
+import { Link } from "react-router-dom";
 
 const Body = () => {
   // State variable
@@ -52,17 +54,22 @@ const Body = () => {
 
   const fetchdata = async () => {
     
-    const data = await fetch('http://localhost:3000/hotels')
+    // const data = await fetch('http://localhost:3000/hotels')
     
-    // const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=18.5204303&lng=73.8567437&collection=80426&tags=layout_CCS_Dosa&sortBy=&filters=&type=rcv2&offset=0&page_type=null')
+    // const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.7040592&lng=77.10249019999999&collection=83667')
+    const data = await fetch(HOMEPAGE_URL)
     const parsedData = await data.json();
-
+    const infoData = parsedData.data.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants.map(e => e.info)
+    setRestaurantList(infoData)
+    setFilteredRestaurantList(infoData)
+    console.log("List", restaurantList);
+    console.log("Parsed data 2", parsedData.data.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     // setRestaurantList(parsedData)
     // setCount(parsedData.length)
-    console.log("Swiggy", parsedData);
-    setRestaurantList(parsedData)
-    setFilteredRestaurantList(parsedData)
-    setCount(parsedData.length)
+    // console.log("Swiggy", parsedData);
+    // setRestaurantList(parsedData)
+    // setFilteredRestaurantList(parsedData)
+    setCount(infoData.length)
   }
   // if(restaurantList.length == 0){
   //   return <Shimmer/>
@@ -107,7 +114,7 @@ const Body = () => {
         <RestaurantCard restData={restaurantList[6]}/>
         <RestaurantCard restData={restaurantList[7]}/> */}
         {filteredRestaurantList.map((restaurant) => (
-          <RestaurantCard key={restaurant._id} restData={restaurant} />
+         <Link style={{textDecoration:'none'}} key={restaurant.id} to={"/restaurants/"+restaurant.id}><RestaurantCard key={restaurant.id} restData={restaurant} /></Link>
         ))}
 
         {/* <RestaurantCard restName="KFC" cuisine="Burger, Chicken Wrap" avgRating="4.3 Stars" deliveryTime="Delivered in 35 mins"  /> */}
