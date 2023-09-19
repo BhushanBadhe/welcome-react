@@ -8,7 +8,7 @@ export const Header = () => {
   console.log("Header Rendered");
   useEffect(()=>{
     console.log("useEffect rendered");
-  },[btnAuthState])
+  },[])
 
 
   return (
@@ -28,7 +28,14 @@ export const Header = () => {
             <Link style={{textDecoration:"none"}} to="/contact">Contact Us</Link>
           </li>
           <li>Cart</li>
-          <button
+          <li>
+          <Link to="login"> 
+          <button>
+          Login
+          </button>
+          </Link>
+          </li>
+          {/* <button
             className="filter-btn"
             onClick={() =>
               btnAuthState == "Login"
@@ -37,7 +44,12 @@ export const Header = () => {
             }
           >
             {btnAuthState}
-          </button>
+          </button> */}
+
+          
+
+
+
         </ul>
       </div>
     </div>

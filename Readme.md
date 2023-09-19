@@ -121,6 +121,9 @@ Hooks
    Never create useState hooks into if statement it creates inconsistency into our code. 
 
 -useEffect().  
+React renders UI first then it makes API calls and after that it fills API data onto component. 
+Eg we're getting restaurant list from live swiggy API. We're loading restaurantList 1st if restaurantList.lenth  == 0 then we load Shiimer UI component at that moment react restaurantList state is initialised and we're making API call after making successful API call we fill data into restaurantList state with the help of setRestaurantList method.  
+
 1. It is a hook same like useState hook. However, we use useState function/hook to initialize state variable useEffect used to interact with backend API. 
 2. useEffect function takes 2 arguments given as below
   useEffect(()=>{}, [])
@@ -129,7 +132,7 @@ Hooks
 4. Everytime my component will get rendered useEffect hook will be called if there's no dependency array gibven only callback function is mandatory. 
 5. If we provide empty array as dependency array to useEffect hook then the useEffect hook will be rendered on initial stage of component. After that we won't be able to see any rendering from dependency array. 
 6. If something is provided to useEffect hook when dependency array changes then useEffect will get rendered. 
-eg 
+eg If the value of btnAuthState changes then only useEffect will be triggered.
 
 const [btnAuthState,setBtnAuthState] = useState("Login")
 
@@ -138,6 +141,10 @@ const [btnAuthState,setBtnAuthState] = useState("Login")
 useEffect(()=> {
   console.log("Authentication Status", btnAuthState)
 },[btnAuthState])
+
+
+7. If we don't provide anything as empty array to useEffect hook then useEffect hook will be called continuously. 
+
 
 - React Fibre
 React uses reconciliation algorithm known as react fibre. This react fibre creates a virtual DOM to re-render the component. It doesn't touch the actual DOM. 
@@ -266,3 +273,84 @@ iii) const {resId} = useParams();
 
 
 Warning : swiggy live api is used into this code. Just allow cors to your port using cors chrome extension. 
+
+
+Episode 8 : Let's get classy 
+There are two types of components in react ecosystem 
+i) Class based component ==> It's just a simple JS Class which extends React.Component. It has render method which returns some piece of JSX. We need to use/insert super(props) into constructor(props)  of the class components because when a class components are used constructor is called and props are initialized.
+setState method is used to set state value in class component. There is another method in class based component componentDidMount() wich will be invoked after finishing code execution of render method. 
+
+Important Interview Question ==> Suppose we have two components Parent and child component both components have 3 methods constructor, render and com ponentDidMount. Then the execution flow will be given as below
+
+Parent(Constructor) ==> Parent(render) ==> Child(Constructor)==> Child(render) ==> Child(ComponentDidMount) ==> Parent(ComponentDidMount)
+
+
+
+
+componentDidMount method is used to make API calls. Just like useEffect hook we renders the component after rendiering the data we make API call. 
+
+
+
+React lifecycle methods 
+- for more info checkout the link given below 
+https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
+
+When we are mounting component we have two phases called render phase and commit phase 
+
+When we call a class component first of all the constructor will be rendered then render method will be mounted and the DOM will check whether is there any component is called or not. 
+
+i) If class component declaration is present then the constructor of that component is rendered render method will be executed. After child component's render method will be called then componentDidMount and after all componentDidMount method of parent component will be executed. 
+
+ii) It not then componentDidMount method will be executed in the commit phase. 
+
+iii) After render phase execution the code of commit phase is executed called componentDidMount method. In this commit phase the DOM will be manipulated which is too much expensive wrt time. 
+
+iv) In class based components after every render componentDidUpdate() lifecycle method is invoked. In that trend of class based components we had parameters with componentDidUpdate(prevProps,prevStat) 
+
+v) componentWillUnmount() use case is when we're leaving the page this method will be invoked. In some cases we need to clear some things/data from UI at that time this method is used.
+Eg 
+we have two components profile is a parent component and userAvtar is child component and we have setInterval method in child component's render method if we try to switch tabs at that moment also the setInterval function will be executed. Hence, componentWillUnmount method is used. So when we change the component setInterval execution will be stopped.  
+
+
+class based component 
+==> componentDidUpdate(prevProps,prevState){
+  if(this.state.count != prevState.count){
+    <!-- Do Something -->
+  }
+}
+
+functional component
+==> useEffect(()=>{
+  <!-- Do something -->
+},[count])
+
+i) useEffect hook of functional component works same like componentDidMount mwthod of class component. But if we want to use componentWillUnmount method we need to use return a callback function from useEffect hook. Eg 
+
+eg. 
+Suppose we have a component 
+
+const About = () => {
+
+  useEffect(() => {
+  console.log("Component mounted");
+
+  const timer = setInterval(() => {
+    console.log("About component");
+  }, 1000);
+
+  return () => {
+    console.log("Component unmounted");
+    clearInterval(timer);
+  };
+}, []);
+
+  console.log("render")
+
+}
+
+
+Warning : In react 16 we used class component and componentDidMount works same like useEffect for API call/rendering data from backend. But we use async componentDidMount != useEffect(async ()=> console.log("Callback"), [])
+
+ii) Functional Component ==> It's a JS Function which return some piece of JSX. Hooks are used to implement states. 
+
+

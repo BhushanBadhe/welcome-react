@@ -36,8 +36,8 @@ const RestaurantMenu = () => {
         <p>{cuisines.join(", ")}</p>
         <h4>{costForTwoMessage}</h4>
         <h2>Menu </h2>
-        <ul>
-            {itemCards.map( e => <li key={e.card.info.id}>{e.card.info.name } -- { "Rs. "+ e.card.info.price/100 || e.card.info.defaultPrice / 100 } </li>  )}
+        <ul className='menu-list'>
+            {itemCards.map( e => <li className='menu-item' key={e.card.info.id}>{e.card.info.name } -- <span className='item-price'>{"Rs. "+ e.card.info.price/100 || e.card.info.defaultPrice / 100 }</span> </li>  )}
             {/* <li>{itemCards[0].card.info.name}</li>
             <li>{itemCards[1].card.info.name}</li>
             <li>{itemCards[2].card.info.name}</li> */}

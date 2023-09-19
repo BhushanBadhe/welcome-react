@@ -6,41 +6,7 @@ import { HOMEPAGE_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
 
 const Body = () => {
-  // State variable
-
-  // let dataObj = [{
-  //   _id: 1,
-  //   name: "Starbucks Coffee",
-  //   avgRating: 4.3,
-  //   cuisines: ["Beverages", "Cafe", "Snacks", "Desserts"],
-  //   deliveryTime: "Delivered in 36 minutes",
-
-  //   CloudinaryID: "yunobf9mdp1zjjdvx1ik",
-  // },
-  // {
-  //   _id: 2,
-  //   name: "EatFit",
-  //   avgRating: 4.2,
-  //   cuisines: [
-  //     "Chinese",
-  //     "Healthy Food",
-  //     "Tandoor",
-  //     "Pizzas",
-  //     "North Indian",
-  //     "Thalis",
-  //     "Biryani",
-  //   ],
-  //   deliveryTime: "Delivered in 28 minutes",
-  //   CloudinaryID: "0da26b9dde86dc03dad7b4a1a747d2bd",
-  // },
-  // {
-  //   _id: 3,
-  //   name: "Baskin Robbins - Ice Cream Desserts",
-  //   avgRating: 4.6,
-  //   cuisines: ["Desserts", "Ice Cream"],
-  //   deliveryTime: "Delivered in 45 minutes",
-  //   CloudinaryID: "0da26b9dde86dc03dad7b4a1a747d2bd",
-  // }]
+  
   const [restaurantList, setRestaurantList] = useState([]);
   const [filteredRestaurantList,setFilteredRestaurantList] = useState([]);
   const [count, setCount] = useState(0);
@@ -59,31 +25,30 @@ const Body = () => {
     // const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.7040592&lng=77.10249019999999&collection=83667')
     const data = await fetch(HOMEPAGE_URL)
     const parsedData = await data.json();
-    const infoData = parsedData.data.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants.map(e => e.info)
+    console.log("Info 2", parsedData?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+    const infoData = parsedData?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants.map(item => item.info) || []
+    // const infoData = parsedData.data.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants.map(e => e.info)
     setRestaurantList(infoData)
     setFilteredRestaurantList(infoData)
-    console.log("List", restaurantList);
-    console.log("Parsed data 2", parsedData.data.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-    // setRestaurantList(parsedData)
-    // setCount(parsedData.length)
-    // console.log("Swiggy", parsedData);
-    // setRestaurantList(parsedData)
-    // setFilteredRestaurantList(parsedData)
     setCount(infoData.length)
+    console.log("List 2", infoData[0]);
+    console.log("Count", infoData.length);
+    console.log("Filtered list", filteredRestaurantList);
+    // console.log("Og List", restaurantList);
+    // console.log(infoData);
   }
   // if(restaurantList.length == 0){
   //   return <Shimmer/>
   // }
   
-
   return restaurantList == 0 ? <Shimmer/> : (
     <div className="body">
       <div className="filter">
         <div className="search"> 
           <input type="text" className="search-box" value={searchText} onChange={(e)=> setSearchText(e.target.value)}/>
           <button onClick={()=> {
-          
             let filteredList = restaurantList.filter((res)=> res.name.toLowerCase().includes(searchText.toLowerCase()))
+            console.log("Filtered Search ", filteredList);
             setFilteredRestaurantList(filteredList)
             setCount(filteredList.length)
           }}>Seach</button>
@@ -113,9 +78,10 @@ const Body = () => {
         <RestaurantCard restData={restaurantList[4]}/>
         <RestaurantCard restData={restaurantList[6]}/>
         <RestaurantCard restData={restaurantList[7]}/> */}
-        {filteredRestaurantList.map((restaurant) => (
+        { Array.isArray(filteredRestaurantList) ? filteredRestaurantList.map((restaurant,index) => (
          <Link style={{textDecoration:'none'}} key={restaurant.id} to={"/restaurants/"+restaurant.id}><RestaurantCard key={restaurant.id} restData={restaurant} /></Link>
-        ))}
+        )) : <h1>Please Refresh </h1>}
+        
 
         {/* <RestaurantCard restName="KFC" cuisine="Burger, Chicken Wrap" avgRating="4.3 Stars" deliveryTime="Delivered in 35 mins"  /> */}
       </div>
