@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Shimmer from "./Shimmer";
 import { HOMEPAGE_URL } from "../utils/constants";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 const Body = () => {
   
@@ -20,14 +21,11 @@ const Body = () => {
 
   const fetchdata = async () => {
     
-    // const data = await fetch('http://localhost:3000/hotels')
-    
-    // const data = await fetch('https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.7040592&lng=77.10249019999999&collection=83667')
     const data = await fetch(HOMEPAGE_URL)
     const parsedData = await data.json();
-    console.log("Info 2", parsedData?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-    const infoData = parsedData?.data?.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants.map(item => item.info) || []
-    // const infoData = parsedData.data.cards[3]?.card?.card?.gridElements?.infoWithStyle?.restaurants.map(e => e.info)
+    console.log("Info 2", parsedData?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+    const infoData = parsedData?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants.map(item => item.info) || []
+   
     setRestaurantList(infoData)
     setFilteredRestaurantList(infoData)
     setCount(infoData.length)
@@ -37,10 +35,12 @@ const Body = () => {
     // console.log("Og List", restaurantList);
     // console.log(infoData);
   }
-  // if(restaurantList.length == 0){
-  //   return <Shimmer/>
-  // }
   
+  const onlineStatus = useOnlineStatus();
+
+  if(onlineStatus === false)
+  return (<h1 className="danger">Looks like you're offline please check your internet connection</h1>)
+
   return restaurantList == 0 ? <Shimmer/> : (
     <div className="body">
       <div className="filter">

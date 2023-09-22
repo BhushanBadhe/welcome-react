@@ -1,10 +1,12 @@
 import { LOGO_URL } from "../utils/constants";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import useOnlineStatus from "../utils/useOnlineStatus";
 
 export const Header = () => {
   const [btnAuthState, setBtnAuthState] = useState("Login");
 
+  const onlineStatus = useOnlineStatus();
   console.log("Header Rendered");
   useEffect(()=>{
     console.log("useEffect rendered");
@@ -19,13 +21,19 @@ export const Header = () => {
       <div className="nav-items">
         <ul>
           <li>
-            <Link style={{textDecoration:"none"}} to="/">Home</Link>
+            {onlineStatus ? "✅" : "⛔️"}
+          </li>
+          <li>
+            <Link style={{textDecoration:"none",cursor:"pointer"}} to="/">Home</Link>
             </li>
           <li>
-            <Link style={{textDecoration:"none"}} to="/about">About Us</Link>
+            <Link style={{textDecoration:"none",cursor:"pointer"}} to="/about">About Us</Link>
             </li>
           <li>
-            <Link style={{textDecoration:"none"}} to="/contact">Contact Us</Link>
+            <Link style={{textDecoration:"none",cursor:"pointer"}} to="/contact">Contact Us</Link>
+          </li>
+          <li>
+            <Link style={{textDecoration:'none',cursor:"pointer"}} to={"/grocery"}>Grocery</Link>
           </li>
           <li>Cart</li>
           <li>

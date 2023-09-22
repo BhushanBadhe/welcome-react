@@ -354,3 +354,36 @@ Warning : In react 16 we used class component and componentDidMount works same l
 ii) Functional Component ==> It's a JS Function which return some piece of JSX. Hooks are used to implement states. 
 
 
+
+
+
+===> custom hooks 
+i) The man objective of custom hook is to optimize our code in single responsibility, modular, testable and maintanable manner. 
+
+ii) Hook is a utility functions of functional component.
+
+iii) custom hooks are also created by third party libraries eg for routing react app we need to use react-router-dom which provide us useParams hook. we're not aware of the source code of this useParams hook. So that's the magic of react custom hooks. 
+
+iv) For best practices, create utils folder into src folder and best naming conventions is to prefix it with use keyword. Eg we're creating custom hook to gather restaurant menu list using custom hook i.e. useRestaurantMenu 
+
+
+#Parcel is a bundler which bundles our whole app. Chunking/code splitting/ dynamic bundling is a process of bundling all JS files into small JS files. Chunking process is same like lazy loading in angular (on demand loading). 
+
+#Lazy Loading
+ a) For lazy loading we need to use lazy function which is provided by react. It's a named import from react.  
+ b) If we try to use lazy loading for component we'll get error because react is so fast where react cannot be able to find that particular(lazy loaded) component. Hence, react recommend us to use Suspense component which is provided by react. This suspense component wraps our component for lazy loading process. Suspense component has a prop called fallback which is used like loading indicator. We can pass JSX/component/function as fallback from this suspense component. 
+ 
+ Example 
+
+ App.js
+ const Grocery = lazy(()=>import("path of component"));
+ 
+ {path:"/grocery", <Suspense fallback={<Shimmer/>}><Grocery></Suspense>}
+
+Header.js
+
+<li>
+<Link to={"/grocery"}>Grocery</Link>
+</li>
+
+ 

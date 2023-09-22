@@ -7,6 +7,7 @@ class About extends Component{
 
     constructor(props){
         super(props)
+        this.timer = null;
         console.log("Parent constructor invoked");
     }
 
@@ -15,29 +16,31 @@ class About extends Component{
 
      // Clear this interval from componentWillUnmount method
 
-    //   this.timer =  setInterval(()=>{
-    //         console.log("About component");
-    //     },1000)
+       this.timer =  setInterval(()=>{
+            console.log("About component ");
+        },1000)
+    }
+    
+    componentWillUnmount(){
+        console.log("About unmount");
+        clearInterval(this.timer);
     }
     componentDidUpdate(){
         console.log("Parent class componentDidUpdate");
         
     }
-    componentWillUnmount(){
-        console.log("About unmount");
-        // clearInterval(this.timer);
-    }
 
     render(){
         console.log("Parent Render Method Called");
-        return(
+        return <h1>About Component of swiggy clone</h1>
+        // return(
            
-            <>
-            <UserClass />
-            <User name={"Bhushan Badhe"} componentType={"Functional Component"} />
-            </>
+        //     <>
+        //     <UserClass />
+        //     <User name={"Bhushan Badhe"} componentType={"Functional Component"} />
+        //     </>
 
-        )
+        // )
     }
 
 }
