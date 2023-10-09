@@ -20,8 +20,8 @@ const AppLayout = () => {
   // console.log("Body ", <Body/>);
 
   return (
-    <div className="app">
-      <Header />
+    <div>
+      <Header className="fixed z-10" />
       <Outlet/>
       <Footer/>
     </div>

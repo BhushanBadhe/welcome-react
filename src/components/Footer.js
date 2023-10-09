@@ -9,8 +9,8 @@ class Footer extends Component{
 
     render(){
         return(
-            <div className="footer-card">
-                <p className="footer-text">Copyright @2023</p>
+            <div className="flex items-center justify-center h-20  bg-yellow-200">
+                <p className="footer-text font-bold text-2xl">Copyright @2023</p>
             </div>
         )
     }

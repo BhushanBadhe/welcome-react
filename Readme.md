@@ -387,3 +387,12 @@ Header.js
 </li>
 
  
+
+ Styling our App --> Branch 9 
+
+ postcss is a tool used to transform css into js
+
+
+
+Branch 10 
+Higher Order Component is a function that takes a component and returns a component. 
